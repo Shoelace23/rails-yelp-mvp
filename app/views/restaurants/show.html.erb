@@ -1,0 +1,40 @@
+<div class="container my-4">
+  <div class="mb-4">
+    <%= link_to "Back to restaurants", restaurants_path, class: "btn btn-outline-secondary mb-3" %>
+    <h1><%= @restaurant.name %></h1>
+    <p class="text-muted"><%= @restaurant.category.capitalize %></p>
+    <p><strong>Address:</strong> <%= @restaurant.address %></p>
+    <% if @restaurant.phone_number.present? %>
+      <p><strong>Phone:</strong> <%= @restaurant.phone_number %></p>
+    <% end %>
+  </div>
+
+  <hr>
+
+  <h2>Reviews (<%= @restaurant.reviews.count %>)</h2>
+
+  <% if @restaurant.reviews.any? %>
+    <% @restaurant.reviews.each do |review| %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="mb-1">
+            <% review.rating.times do %>
+              &#9733;
+            <% end %>
+            <% (5 - review.rating).times do %>
+              &#9734;
+            <% end %>
+          </div>
+          <p class="card-text"><%= review.content %></p>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-muted">No reviews yet.</p>
+  <% end %>
+
+  <hr>
+
+  <h3>Leave a review</h3>
+  <%= render "reviews/form", restaurant: @restaurant, review: @review %>
+</div>
